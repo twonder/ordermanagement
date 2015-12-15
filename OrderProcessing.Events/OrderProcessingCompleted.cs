@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace OrderProcessing.Events
 {
-    public interface OrderProcessingCompleted : IEvent
+    public interface OrderProcessingCompleted : IOrderEvent
     {
-        string OrderId { get; set; }
         double Price { get; set; }
         DateTime ScheduledDate { get; set; }
     }

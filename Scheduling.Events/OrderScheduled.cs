@@ -3,9 +3,8 @@ using System;
 
 namespace Scheduling.Events
 {
-    public interface OrderScheduled : IEvent
+    public interface OrderScheduled : IOrderEvent
     {
-        string OrderId { get; set; }
         DateTime ScheduledDate { get; set; }
     }
 }

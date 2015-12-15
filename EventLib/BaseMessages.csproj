@@ -44,6 +44,7 @@
     <Compile Include="ICommand.cs" />
     <Compile Include="IEvent.cs" />
     <Compile Include="IMessage.cs" />
+    <Compile Include="IOrderEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

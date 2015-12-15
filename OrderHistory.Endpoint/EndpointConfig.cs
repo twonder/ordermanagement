@@ -1,20 +1,18 @@
 
-namespace OrderProcessing.Endpoint
+namespace OrderHistory.Endpoint
 {
     using NServiceBus;
-    using NServiceBus.Persistence;
     using System;
-
+    
     public class EndpointConfig : IConfigureThisEndpoint
     {
         public void Customize(BusConfiguration configuration)
         {
-            Console.Title = "Order Processing";
+            Console.Title = "Order History";
 
-            configuration.EndpointName("OrderManagement.OrderProcessing");
+            configuration.EndpointName("OrderManagement.OrderHistory");
 
-            configuration.UsePersistence<NHibernatePersistence>()
-                .ConnectionString(@"data source=.\SQLEXPRESS;Database=OrderManagement.OrderProcessing;Integrated Security=SSPI");
+            configuration.UsePersistence<InMemoryPersistence>();
             configuration.UseSerialization<JsonSerializer>();
 
             // specify what the commands and events can be recognized by

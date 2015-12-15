@@ -2,9 +2,8 @@
 
 namespace Pricing.Events
 {
-    public interface OrderPriced : IEvent
+    public interface OrderPriced : IOrderEvent
     {
-        string OrderId { get; set; }
         double Price { get; set; }
     }
 }

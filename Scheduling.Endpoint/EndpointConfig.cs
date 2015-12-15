@@ -2,6 +2,7 @@
 namespace Scheduling.Endpoint
 {
     using NServiceBus;
+    using NServiceBus.Persistence;
     using System;
 
     public class EndpointConfig : IConfigureThisEndpoint
@@ -12,7 +13,8 @@ namespace Scheduling.Endpoint
 
             configuration.EndpointName("OrderManagement.Scheduling");
 
-            configuration.UsePersistence<InMemoryPersistence>();
+            configuration.UsePersistence<NHibernatePersistence>()
+                .ConnectionString(@"data source=.\SQLEXPRESS;Database=OrderManagement.Scheduling;Integrated Security=SSPI");
             configuration.UseSerialization<JsonSerializer>();
 
             // specify what the commands and events can be recognized by

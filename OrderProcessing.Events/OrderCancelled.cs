@@ -2,8 +2,7 @@
 
 namespace OrderProcessing.Events
 {
-    public interface OrderCancelled : IEvent
+    public interface OrderCancelled : IOrderEvent
     {
-        string OrderId { get; set; }
     }
 }

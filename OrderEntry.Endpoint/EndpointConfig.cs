@@ -6,11 +6,9 @@ namespace OrderEntry.Endpoint
     using Commands;
     using System;
     using Events;
+    using NServiceBus.Persistence;
 
-    /*
-		This class configures this endpoint as a Server. More information about how to configure the NServiceBus host
-		can be found here: http://particular.net/articles/the-nservicebus-host
-	*/
+    
     public class EndpointConfig : IConfigureThisEndpoint
     {
         public void Customize(BusConfiguration configuration)
@@ -19,7 +17,8 @@ namespace OrderEntry.Endpoint
 
             configuration.EndpointName("OrderManagement.OrderEntry");
 
-            configuration.UsePersistence<InMemoryPersistence>();
+            configuration.UsePersistence<NHibernatePersistence>()
+                .ConnectionString(@"data source=.\SQLEXPRESS;Database=OrderManagement.OrderEntry;Integrated Security=SSPI");
             configuration.UseSerialization<JsonSerializer>();
 
             // specify what the commands and events can be recognized by

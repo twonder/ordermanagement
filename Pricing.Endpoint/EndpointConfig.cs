@@ -2,6 +2,7 @@
 namespace Pricing.Endpoint
 {
     using NServiceBus;
+    using NServiceBus.Persistence;
     using System;
 
     /*
@@ -16,7 +17,8 @@ namespace Pricing.Endpoint
 
             configuration.EndpointName("OrderManagement.Pricing");
 
-            configuration.UsePersistence<InMemoryPersistence>();
+            configuration.UsePersistence<NHibernatePersistence>()
+                .ConnectionString(@"data source=.\SQLEXPRESS;Database=OrderManagement.Pricing;Integrated Security=SSPI");
             configuration.UseSerialization<JsonSerializer>();
 
             // specify what the commands and events can be recognized by

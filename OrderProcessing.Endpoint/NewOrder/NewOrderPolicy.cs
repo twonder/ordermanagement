@@ -41,7 +41,7 @@ namespace OrderProcessing.Backend
         {
             Data.OrderId = message.OrderId;
             Data.NumberOfCancelTimeouts = 0;
-
+            
             // schedule the cancel order timeout
             RequestTimeout(TimeSpan.FromSeconds(SecondsToWaitForCancel), new OrderCancelTimeout
             {
@@ -57,6 +57,10 @@ namespace OrderProcessing.Backend
                 OrderId = message.OrderId,
                 DateOccurred = DateTime.Now
             });
+            
+            Console.WriteLine("Starting order processing");
+            Console.WriteLine("Order Id: " + Data.OrderId);
+            Console.WriteLine("---------------------------------");
         }
 
         public void Handle(OrderScheduled message)
@@ -77,6 +81,8 @@ namespace OrderProcessing.Backend
             Console.WriteLine("Order price: $" + message.Price + ".");
             Console.WriteLine("Order Id: " + Data.OrderId);
             Console.WriteLine("---------------------------------");
+
+            CompleteIfDone()
         }
 
         public void Timeout(OrderCancelTimeout state)

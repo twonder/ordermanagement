@@ -12,7 +12,7 @@ namespace Scheduling.Endpoint
         public void Handle(OrderSubmitted message)
         {
             // go look up the schedule date, it takes a little bit
-            Thread.Sleep(3000);
+            Thread.Sleep(6000);
 
             var scheduledDate = DateTime.Now.AddDays(7);
 

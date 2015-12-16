@@ -15,6 +15,7 @@ namespace OrderProcessing.Backend
         public virtual string OrderId { get; set; }
         public virtual double? OrderPrice { get; set; }
         public virtual DateTime ScheduledDate { get; set; }
+        public virtual int NumberOfCancelTimeouts { get; set; }
     }
 
     public class NewOrderPolicy : Saga<NewOrderPolicyData>,
@@ -25,8 +26,9 @@ namespace OrderProcessing.Backend
         IHandleTimeouts<OrderCancelTimeout>,
         IHandleTimeouts<DelinquentOrderTimeout>
     {
-        private int SecondsToWaitForCancel = 30;
-        private int HoursUntilDelinquent = 4;
+        private const int SecondsToWaitForCancel = 30;
+        private const int HoursUntilDelinquent = 4;
+        private const int MaxCancelRetries = 2;
 
         protected override void ConfigureHowToFindSaga(SagaPropertyMapper<NewOrderPolicyData> mapper)
         {
@@ -38,6 +40,7 @@ namespace OrderProcessing.Backend
         public void Handle(OrderSubmitted message)
         {
             Data.OrderId = message.OrderId;
+            Data.NumberOfCancelTimeouts = 0;
 
             // schedule the cancel order timeout
             RequestTimeout(TimeSpan.FromSeconds(SecondsToWaitForCancel), new OrderCancelTimeout
@@ -80,6 +83,14 @@ namespace OrderProcessing.Backend
         {
             Console.WriteLine("---Order Timeout Expired---");
             CompleteIfDone();
+
+            if (!IsComplete() && Data.NumberOfCancelTimeouts < MaxCancelRetries)
+            {
+                Data.NumberOfCancelTimeouts++;
+
+                // do cancel order timeout again
+                RequestTimeout(TimeSpan.FromSeconds(SecondsToWaitForCancel / 2), state);
+            }
         }
 
         public void Timeout(DelinquentOrderTimeout state)

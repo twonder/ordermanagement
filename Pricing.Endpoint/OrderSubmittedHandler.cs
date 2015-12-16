@@ -11,7 +11,7 @@ namespace Pricing.Endpoint
         public IBus Bus { get; set; }
         public void Handle(OrderSubmitted message)
         {
-            throw new NullReferenceException();
+            //throw new NullReferenceException();
 
             // go look up the price
             Random random = new Random();

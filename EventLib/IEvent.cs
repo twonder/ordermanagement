@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EventLib
+namespace BaseMessages.Events
 {
     public interface IEvent : IMessage
     {

@@ -61,7 +61,7 @@ namespace OrderProcessing.Backend
             Data.OrderId = message.OrderId;
             Data.ScheduledDate = message.ScheduledDate;
 
-            Console.WriteLine("The order has a scheduled date: " + message.ScheduledDate.ToString("MMMM dd, yyyy") + ".");
+            Console.WriteLine("Order scheduled date: " + message.ScheduledDate.ToString("MMMM dd, yyyy") + ".");
             Console.WriteLine("Order Id: " + Data.OrderId);
             Console.WriteLine("---------------------------------");
         }
@@ -71,7 +71,7 @@ namespace OrderProcessing.Backend
             Data.OrderId = message.OrderId;
             Data.OrderPrice = message.Price;
 
-            Console.WriteLine("The order has a price: $" + message.Price + ".");
+            Console.WriteLine("Order price: $" + message.Price + ".");
             Console.WriteLine("Order Id: " + Data.OrderId);
             Console.WriteLine("---------------------------------");
         }

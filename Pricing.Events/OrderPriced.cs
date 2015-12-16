@@ -1,4 +1,4 @@
-﻿using EventLib;
+﻿using BaseMessages.Events;
 
 namespace Pricing.Events
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EventLib
+namespace BaseMessages.Commands
 {
     public interface ICommand : IMessage
     {

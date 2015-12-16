@@ -11,6 +11,8 @@ namespace Pricing.Endpoint
         public IBus Bus { get; set; }
         public void Handle(OrderSubmitted message)
         {
+            throw new NullReferenceException();
+
             // go look up the price
             Random random = new Random();
             var price = Math.Round(random.NextDouble() * (10000 - 1000) + 1000, 2);

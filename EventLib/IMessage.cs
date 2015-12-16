@@ -1,4 +1,4 @@
-﻿namespace EventLib
+﻿namespace BaseMessages
 {
     public interface IMessage { }
 }

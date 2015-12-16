@@ -1,4 +1,4 @@
-﻿using EventLib;
+﻿using BaseMessages.Events;
 using System.Collections.Generic;
 
 namespace OrderEntry.Events

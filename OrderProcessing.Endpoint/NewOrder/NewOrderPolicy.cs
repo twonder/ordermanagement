@@ -37,6 +37,7 @@ namespace OrderProcessing.Backend
             mapper.ConfigureMapping<OrderPriced>(order => order.OrderId).ToSaga(policy => policy.OrderId);
             mapper.ConfigureMapping<OrderScheduled>(order => order.OrderId).ToSaga(policy => policy.OrderId);
         }
+
         public void Handle(OrderSubmitted message)
         {
             Data.OrderId = message.OrderId;
@@ -58,9 +59,10 @@ namespace OrderProcessing.Backend
                 DateOccurred = DateTime.Now
             });
             
-            Console.WriteLine("Starting order processing");
+            /*Console.WriteLine("Starting order processing");
             Console.WriteLine("Order Id: " + Data.OrderId);
             Console.WriteLine("---------------------------------");
+            */
         }
 
         public void Handle(OrderScheduled message)
@@ -81,8 +83,6 @@ namespace OrderProcessing.Backend
             Console.WriteLine("Order price: $" + message.Price + ".");
             Console.WriteLine("Order Id: " + Data.OrderId);
             Console.WriteLine("---------------------------------");
-
-            CompleteIfDone()
         }
 
         public void Timeout(OrderCancelTimeout state)

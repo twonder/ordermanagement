@@ -14,7 +14,7 @@ namespace OrderProcessing.Backend
         [Unique]
         public virtual string OrderId { get; set; }
         public virtual double? OrderPrice { get; set; }
-        public virtual DateTime ScheduledDate { get; set; }
+        public virtual DateTime? ScheduledDate { get; set; }
         public virtual int NumberOfCancelTimeouts { get; set; }
     }
 
@@ -59,10 +59,9 @@ namespace OrderProcessing.Backend
                 DateOccurred = DateTime.Now
             });
             
-            /*Console.WriteLine("Starting order processing");
+            Console.WriteLine("Starting order processing");
             Console.WriteLine("Order Id: " + Data.OrderId);
             Console.WriteLine("---------------------------------");
-            */
         }
 
         public void Handle(OrderScheduled message)
@@ -123,25 +122,27 @@ namespace OrderProcessing.Backend
 
         private bool IsComplete()
         {
-            return Data.ScheduledDate != null && Data.OrderPrice != null;
+            return Data.ScheduledDate != DateTime.MinValue && Data.OrderPrice != null;
         }
 
         private void CompleteIfDone()
         {
             if (!IsComplete()) return;
 
+            var scheduledDate = (DateTime)Data.ScheduledDate;
+
             Bus.Publish<OrderProcessingCompleted>(o =>
             {
                 o.OrderId = Data.OrderId;
-                o.Price = (double)Data.OrderPrice;
-                o.ScheduledDate = Data.ScheduledDate;
+                o.Price = (double) Data.OrderPrice;
+                o.ScheduledDate = scheduledDate;
                 o.Occurred = DateTime.Now;
             });
 
             Console.WriteLine("Order Completed!");
             Console.WriteLine("Order Id: " + Data.OrderId);
             Console.WriteLine("Price: $" + Data.OrderPrice);
-            Console.WriteLine("ScheduledDate: " + Data.ScheduledDate.ToString("MMMM dd, yyyy"));
+            Console.WriteLine("ScheduledDate: " + scheduledDate.ToString("MMMM dd, yyyy"));
             Console.WriteLine("Occurred: " + DateTime.Now);
             Console.WriteLine("---------------------------------");
 

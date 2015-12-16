@@ -15,7 +15,7 @@ namespace OrderHistory.Endpoint
             var fullName = message.GetType().FullName.Replace("__impl", "");
             Console.WriteLine("Recording history: " + message.OrderId);
             Console.WriteLine(fullName);
-            Console.WriteLine("--------------------------------------------------");
+            Console.WriteLine("----------------------------------------------");
 
             // define INSERT query with parameters
             string query = "INSERT INTO dbo.EventStream (OrderId, Type, Occurred, Data) " +

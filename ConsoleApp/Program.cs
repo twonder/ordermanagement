@@ -10,6 +10,7 @@ namespace ConsoleApp
     class Program
     {
         private static string customerId;
+        private static string currentOrderId;
         private static List<Product> products = new List<Product>();
 
         static void Main(string[] args)
@@ -53,7 +54,9 @@ namespace ConsoleApp
                     {
                         case "Login":
                             customerId = pieces[1];
+
                             products = new List<Product>();
+                            currentOrderId = "";
 
                             Console.WriteLine("===> Logged in");
 
@@ -68,27 +71,74 @@ namespace ConsoleApp
 
                             bus.Send<SubmitOrder>(o =>
                             {
+                                o.OrderId = currentOrderId;
                                 o.CustomerId = customerId;
                                 o.DateSent = DateTime.Now;
                                 o.Products = products;
                             });
+
                             products = new List<Product>();
 
                             Console.WriteLine("Order Submitted");
 
                             break;
                         case "AddProduct":
+                            var commands = new List<ICommand>();
+
+                            if(!products.Any() && String.IsNullOrEmpty(currentOrderId))
+                            {
+                                currentOrderId = Guid.NewGuid().ToString();
+                                bus.Send<StartOrder>(o =>
+                                {
+                                    o.OrderId = currentOrderId;
+                                    o.CustomerId = customerId;
+                                    o.DateSent = DateTime.Now;
+                                });
+                            }
+
                             products.Add(new Product { Name = pieces[1] });
 
+                            bus.Send<AddProductToOrder>(o =>
+                            {
+                                o.OrderId = currentOrderId;
+                                o.CustomerId = customerId;
+                                o.ProductId = pieces[1];
+                                o.DateSent = DateTime.Now;
+                            });
+
                             Console.WriteLine("Added product: "  + pieces[1]);
+
+                            break;
+                        case "RemoveProduct":
+
+                            if (!products.Any(p => p.Name == pieces[1]))
+                            {
+                                Console.WriteLine("There are no products added that match: " + pieces[1]);
+                                break;
+                            }
+
+                            products.RemoveAll(p => p.Name == pieces[1]);
+
+                            bus.Send<RemoveProductFromOrder>(o =>
+                            {
+                                o.OrderId = currentOrderId;
+                                o.CustomerId = customerId;
+                                o.ProductId = pieces[1];
+                                o.DateSent = DateTime.Now;
+                            });
+
+                            Console.WriteLine("Removed product: " + pieces[1]);
 
                             break;
                         case "CancelOrder":
                             bus.Send<CancelOrder>(o =>
                             {
-                                o.OrderId = pieces[1];
+                                o.OrderId = currentOrderId;
                                 o.DateSent = DateTime.Now;
                             });
+
+                            products = new List<Product>();
+                            currentOrderId = "";
 
                             Console.WriteLine("Cancelled Order");
                             break;
@@ -108,13 +158,20 @@ namespace ConsoleApp
             }
         }
 
+        public static void ClearCurrentOrder()
+        {
+            products = new List<Product>();
+            currentOrderId = "";
+        }
+
         static void PrintInstructions()
         {
             Console.WriteLine("Here are the list of actions you can run:");
             Console.WriteLine("Login:[customerId]");
             Console.WriteLine("AddProduct:[product]");
+            Console.WriteLine("RemoveProduct:[product]");
             Console.WriteLine("SubmitOrder (must have products)");
-            Console.WriteLine("CancelOrder:[orderId]");
+            Console.WriteLine("CancelOrder");
             Console.WriteLine("---------------------------------");
             Console.Write((customerId ?? "NotLoggedIn") + "> ");
         }

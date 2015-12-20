@@ -1,13 +1,11 @@
 ﻿using BaseMessages.Commands;
-using System;
-using System.Collections.Generic;
 
 namespace OrderEntry.Commands
 {
-    public interface SubmitOrder : ICommand
+    public interface IProductCommand : ICommand
     {
         string OrderId { get; set; }
         string CustomerId { get; set; }
-        List<Product> Products { get; set; }
+        string ProductId { get; set; }
     }
 }

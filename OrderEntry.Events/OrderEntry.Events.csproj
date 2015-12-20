@@ -41,8 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IProductEvent.cs" />
+    <Compile Include="OrderStarted.cs" />
     <Compile Include="OrderSubmitted.cs" />
     <Compile Include="Product.cs" />
+    <Compile Include="ProductAddedToOrder.cs" />
+    <Compile Include="ProductRemovedFromOrder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

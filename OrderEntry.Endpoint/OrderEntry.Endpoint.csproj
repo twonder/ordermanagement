@@ -64,9 +64,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Handlers\AddProductToOrderHandler.cs" />
     <Compile Include="EndpointConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SubmitOrderHandler.cs" />
+    <Compile Include="Handlers\RemoveProductFromOrderHandler.cs" />
+    <Compile Include="Handlers\StartOrderHandler.cs" />
+    <Compile Include="Handlers\SubmitOrderHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

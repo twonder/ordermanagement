@@ -41,7 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddProductToOrder.cs" />
+    <Compile Include="IProductCommand.cs" />
     <Compile Include="Product.cs" />
+    <Compile Include="RemoveProductFromOrder.cs" />
+    <Compile Include="StartOrder.cs" />
     <Compile Include="SubmitOrder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

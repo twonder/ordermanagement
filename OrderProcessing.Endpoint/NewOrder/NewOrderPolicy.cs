@@ -21,8 +21,8 @@ namespace OrderProcessing.Backend
     public class NewOrderPolicy : Saga<NewOrderPolicyData>,
         IAmStartedByMessages<OrderSubmitted>,
         IHandleMessages<CancelOrder>,
-        IAmStartedByMessages<OrderPriced>,
-        IAmStartedByMessages<OrderScheduled>,
+        IHandleMessages<OrderPriced>,
+        IHandleMessages<OrderScheduled>,
         IHandleTimeouts<OrderCancelTimeout>,
         IHandleTimeouts<DelinquentOrderTimeout>
     {

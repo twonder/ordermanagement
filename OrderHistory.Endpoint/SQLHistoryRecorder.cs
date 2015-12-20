@@ -8,7 +8,7 @@ using System.Web.Script.Serialization;
 
 namespace OrderHistory.Endpoint
 {
-    public class HistoryRecorder : IHandleMessages<IOrderEvent>
+    public class HistoryRecorder// : IHandleMessages<IOrderEvent>
     {
         public void Handle(IOrderEvent message)
         {

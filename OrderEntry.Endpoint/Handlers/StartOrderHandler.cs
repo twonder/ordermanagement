@@ -14,6 +14,7 @@ namespace OrderEntry.Endpoint
             Bus.Publish<OrderStarted>(o =>
             {
                 o.OrderId = message.OrderId;
+                o.CustomerId = message.CustomerId;
                 o.Occurred = DateTime.Now;
             });
 

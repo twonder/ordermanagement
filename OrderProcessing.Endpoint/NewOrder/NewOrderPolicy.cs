@@ -13,6 +13,7 @@ namespace OrderProcessing.Backend
     {
         [Unique]
         public virtual string OrderId { get; set; }
+        public virtual string CustomerId { get; set; }
         public virtual double? OrderPrice { get; set; }
         public virtual DateTime? ScheduledDate { get; set; }
         public virtual int NumberOfCancelTimeouts { get; set; }
@@ -41,6 +42,7 @@ namespace OrderProcessing.Backend
         public void Handle(OrderSubmitted message)
         {
             Data.OrderId = message.OrderId;
+            Data.CustomerId = message.CustomerId;
             Data.NumberOfCancelTimeouts = 0;
             
             // schedule the cancel order timeout
@@ -110,6 +112,7 @@ namespace OrderProcessing.Backend
             Bus.Publish<OrderCancelled>(o =>
             {
                 o.OrderId = Data.OrderId;
+                o.CustomerId = Data.CustomerId;
                 o.Occurred = DateTime.Now;
             });
 
@@ -134,6 +137,7 @@ namespace OrderProcessing.Backend
             Bus.Publish<OrderProcessingCompleted>(o =>
             {
                 o.OrderId = Data.OrderId;
+                o.CustomerId = Data.CustomerId;
                 o.Price = (double) Data.OrderPrice;
                 o.ScheduledDate = scheduledDate;
                 o.Occurred = DateTime.Now;

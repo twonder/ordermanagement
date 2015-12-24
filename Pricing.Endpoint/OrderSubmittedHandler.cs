@@ -22,6 +22,7 @@ namespace Pricing.Endpoint
             Bus.Publish<OrderPriced>(o =>
             {
                 o.OrderId = message.OrderId;
+                o.CustomerId = message.CustomerId;
                 o.Price = price;
                 o.Occurred = DateTime.Now;
             });

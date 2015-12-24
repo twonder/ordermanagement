@@ -20,6 +20,7 @@ namespace Scheduling.Endpoint
             Bus.Publish<OrderScheduled>(o =>
             {
                 o.OrderId = message.OrderId;
+                o.CustomerId = message.CustomerId;
                 o.ScheduledDate = scheduledDate;
                 o.Occurred = DateTime.Now;
             });

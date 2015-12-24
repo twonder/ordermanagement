@@ -11,6 +11,7 @@ namespace ConsoleApp
     {
         private static string customerId;
         private static string currentOrderId;
+        private static List<string> orders = new List<string>();
         private static List<Product> products = new List<Product>();
 
         static void Main(string[] args)
@@ -78,6 +79,8 @@ namespace ConsoleApp
                             });
 
                             products = new List<Product>();
+                            orders.Add(currentOrderId);
+                            currentOrderId = "";
 
                             Console.WriteLine("Order Submitted");
 
@@ -133,12 +136,11 @@ namespace ConsoleApp
                         case "CancelOrder":
                             bus.Send<CancelOrder>(o =>
                             {
-                                o.OrderId = currentOrderId;
+                                o.OrderId = orders[orders.Count - 1];
                                 o.DateSent = DateTime.Now;
                             });
 
                             products = new List<Product>();
-                            currentOrderId = "";
 
                             Console.WriteLine("Cancelled Order");
                             break;

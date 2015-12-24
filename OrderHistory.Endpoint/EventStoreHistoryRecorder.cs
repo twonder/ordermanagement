@@ -24,7 +24,7 @@ namespace OrderHistory.Endpoint
                                         Encoding.UTF8.GetBytes(new JavaScriptSerializer().Serialize(message)), 
                                         Encoding.UTF8.GetBytes(""));
 
-            connection.AppendToStreamAsync("orders-stream", ExpectedVersion.Any, myEvent).Wait();
+            connection.AppendToStreamAsync("order-history", ExpectedVersion.Any, myEvent).Wait();
 
             Console.WriteLine("Recording history: " + message.OrderId);
             Console.WriteLine(fullName);

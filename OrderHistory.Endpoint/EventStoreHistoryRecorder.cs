@@ -1,5 +1,6 @@
 ﻿using BaseMessages.Events;
 using EventStore.ClientAPI;
+using Infrastructure.EventStore;
 using NServiceBus;
 using System;
 using System.Net;
@@ -12,20 +13,10 @@ namespace OrderHistory.Endpoint
     {
         public void Handle(IOrderEvent message)
         {
+            var stream = new StreamRepository("order-history");
+            stream.RecordEvent(message);
+
             var fullName = message.GetType().FullName.Replace("__impl", "");
-            var connection = EventStoreConnection.Create(new IPEndPoint(IPAddress.Loopback, 1113));
-
-            // Don't forget to tell the connection to connect!
-            connection.ConnectAsync().Wait();
-
-            var myEvent = new EventData(Guid.NewGuid(), 
-                                        fullName, 
-                                        true, 
-                                        Encoding.UTF8.GetBytes(new JavaScriptSerializer().Serialize(message)), 
-                                        Encoding.UTF8.GetBytes(""));
-
-            connection.AppendToStreamAsync("order-history", ExpectedVersion.Any, myEvent).Wait();
-
             Console.WriteLine("Recording history: " + message.OrderId);
             Console.WriteLine(fullName);
             Console.WriteLine("----------------------------------------------");

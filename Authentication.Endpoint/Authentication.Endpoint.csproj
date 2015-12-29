@@ -4,17 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{55B42947-C621-4125-8684-4FE85C9DD935}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{9C693EA4-E6B0-4712-BAA8-9C559917FA9F}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ConsoleApp</RootNamespace>
-    <AssemblyName>ConsoleApp</AssemblyName>
+    <RootNamespace>Authentication.Endpoint</RootNamespace>
+    <AssemblyName>Authentication.Endpoint</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -42,7 +39,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="NServiceBus.Core, Version=5.0.0.0, Culture=neutral, PublicKeyToken=9fc386479f8a226c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NServiceBus.5.2.12\lib\net45\NServiceBus.Core.dll</HintPath>
+      <HintPath>..\packages\NServiceBus.5.0.6\lib\net45\NServiceBus.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NServiceBus.Host, Version=6.0.0.0, Culture=neutral, PublicKeyToken=9fc386479f8a226c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NServiceBus.Host.6.0.0\lib\net45\NServiceBus.Host.exe</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="NServiceBus.NHibernate, Version=6.0.0.0, Culture=neutral, PublicKeyToken=9fc386479f8a226c, processorArchitecture=MSIL">
@@ -59,30 +60,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="EndpointConfig.cs" />
+    <Compile Include="LoginHandler.cs" />
+    <Compile Include="LogoutHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
+    <Compile Include="Recorder.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Authentication.Commands\Authentication.Commands.csproj">
       <Project>{b0812b47-58f1-4ab5-b581-f1f093a55299}</Project>
       <Name>Authentication.Commands</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Authentication.Events\Authentication.Events.csproj">
+      <Project>{95aae551-f2b0-43d3-becb-840512436408}</Project>
+      <Name>Authentication.Events</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EventLib\BaseMessages.csproj">
       <Project>{9b48f296-9c9d-4de2-9ab7-593e4b83536f}</Project>
       <Name>BaseMessages</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OrderEntry.Commands\OrderEntry.Commands.csproj">
-      <Project>{0f89c74b-71b6-4ad5-bcb5-f528c50349a7}</Project>
-      <Name>OrderEntry.Commands</Name>
+    <ProjectReference Include="..\Infrastructure.EventStore\Infrastructure.EventStore.csproj">
+      <Project>{8b91300c-e9fe-4c3c-a6d4-17fe676f2f06}</Project>
+      <Name>Infrastructure.EventStore</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OrderProcessing.Commands\OrderProcessing.Commands.csproj">
-      <Project>{e665ca46-2802-42fe-ac84-9ca493a5e696}</Project>
-      <Name>OrderProcessing.Commands</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -92,4 +96,8 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <StartAction>Program</StartAction>
+    <StartProgram>$(ProjectDir)$(OutputPath)NServiceBus.Host.exe</StartProgram>
+  </PropertyGroup>
 </Project>

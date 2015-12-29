@@ -4,17 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{55B42947-C621-4125-8684-4FE85C9DD935}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{95AAE551-F2B0-43D3-BECB-840512436408}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ConsoleApp</RootNamespace>
-    <AssemblyName>ConsoleApp</AssemblyName>
+    <RootNamespace>Authentication.Events</RootNamespace>
+    <AssemblyName>Authentication.Events</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -33,22 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Iesi.Collections, Version=4.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Iesi.Collections.4.0.1.4000\lib\net40\Iesi.Collections.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NHibernate, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <HintPath>..\packages\NHibernate.4.0.1.4000\lib\net40\NHibernate.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NServiceBus.Core, Version=5.0.0.0, Culture=neutral, PublicKeyToken=9fc386479f8a226c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NServiceBus.5.2.12\lib\net45\NServiceBus.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NServiceBus.NHibernate, Version=6.0.0.0, Culture=neutral, PublicKeyToken=9fc386479f8a226c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NServiceBus.NHibernate.6.2.5\lib\net45\NServiceBus.NHibernate.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -59,29 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="IAuth.cs" />
+    <Compile Include="LoggedIn.cs" />
+    <Compile Include="LoggedOut.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Authentication.Commands\Authentication.Commands.csproj">
-      <Project>{b0812b47-58f1-4ab5-b581-f1f093a55299}</Project>
-      <Name>Authentication.Commands</Name>
-    </ProjectReference>
     <ProjectReference Include="..\EventLib\BaseMessages.csproj">
       <Project>{9b48f296-9c9d-4de2-9ab7-593e4b83536f}</Project>
       <Name>BaseMessages</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OrderEntry.Commands\OrderEntry.Commands.csproj">
-      <Project>{0f89c74b-71b6-4ad5-bcb5-f528c50349a7}</Project>
-      <Name>OrderEntry.Commands</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OrderProcessing.Commands\OrderProcessing.Commands.csproj">
-      <Project>{e665ca46-2802-42fe-ac84-9ca493a5e696}</Project>
-      <Name>OrderProcessing.Commands</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

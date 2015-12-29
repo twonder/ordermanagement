@@ -1,4 +1,5 @@
-﻿using NServiceBus;
+﻿using Authentication.Commands;
+using NServiceBus;
 using OrderEntry.Commands;
 using OrderProcessing.Commands;
 using System;
@@ -54,16 +55,39 @@ namespace ConsoleApp
                     switch (actionEntered)
                     {
                         case "Login":
+                            if (!String.IsNullOrEmpty(customerId))
+                            {
+                                bus.Send<Logout>(l =>
+                                {
+                                    l.Id = customerId;
+                                    l.DateSent = DateTime.Now;
+                                });
+                            }
+
                             customerId = pieces[1];
 
                             products = new List<Product>();
                             currentOrderId = "";
 
+                            bus.Send<Login>(l =>
+                            {
+                                l.Id = customerId;
+                                l.DateSent = DateTime.Now;
+                            });
+
                             Console.WriteLine("===> Logged in");
 
                             break;
-                        case "SubmitOrder":
+                        case "Logout":
+                            bus.Send<Logout>(l =>
+                            {
+                                l.Id = customerId;
+                                l.DateSent = DateTime.Now;
+                            });
+                            customerId = null;
 
+                            break;
+                        case "SubmitOrder":
                             if (!products.Any())
                             {
                                 Console.WriteLine("You must first add products before submitting the order");
@@ -174,6 +198,7 @@ namespace ConsoleApp
             Console.WriteLine("RemoveProduct:[product]");
             Console.WriteLine("SubmitOrder (must have products)");
             Console.WriteLine("CancelOrder");
+            Console.WriteLine("Logout");
             Console.WriteLine("---------------------------------");
             Console.Write((customerId ?? "NotLoggedIn") + "> ");
         }
